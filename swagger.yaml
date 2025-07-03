@@ -14,15 +14,17 @@ info:
   version: 1.3.1
   
 servers:
+  - url: https://bookbazaar-jvso.onrender.com/api/v1
+    
+
   - url: http://localhost:{port}/api/v1
-    description: Development server (local)
+    description: Development server
     variables:
       port:
         default: 3000
         description: The local server port 
         
-  - url: https://bookbazaar-jvso.onrender.com/api/v1
-    description: Production server
+
 paths:
   /users/register:
     post:
