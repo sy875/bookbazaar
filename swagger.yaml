@@ -21,7 +21,7 @@ servers:
         default: 3000
         description: The local server port 
         
-  - url: https://bookbazaar.vercel.app/api
+  - url: https://bookbazaar-jvso.onrender.com/api/v1
     description: Production server
 paths:
   /users/register:
