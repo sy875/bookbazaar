@@ -1,0 +1,845 @@
+openapi: 3.0.3
+info:
+  title: BookBazaar
+  description: >-
+    # BookBazaar
+
+    ## 🏁 Installation
+
+    Follow [these](https://github.com/syprogrammer/bookbazaar) instructions for the installation and project setup.
+
+    ## 🐞 Reporting issues
+
+    If you find API issues or bugs when testing, please create an [issue](https://github.com/syprogrammer/bookbazaar/issues/new) and assign it to a member of the development team.
+  version: 1.3.1
+  
+servers:
+  - url: http://localhost:{port}/api/v1
+    description: Development server (local)
+    variables:
+      port:
+        default: 3000
+        description: The local server port 
+        
+  - url: https://bookbazaar.vercel.app/api
+    description: Production server
+paths:
+  /users/register:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Register user
+      description: >-
+        The API endpoint allows users to register or signup to create their
+        accounts.
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user.email@domain.com
+                password:
+                  type: string
+                  example: test@123
+                username:
+                  type: string
+                  example: doejohn
+            example:
+              email: user.email@domain.com
+              password: test@123
+              username: doejohn
+      responses:
+        "201":
+          description: Register user
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "500"
+            Date:
+              schema:
+                type: string
+                example: Fri, 30 Jun 2023 06:44:09 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"1f4-1q38Sbu25p0UVmeYQmrEv2VrgPg"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "500"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "495"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "772"
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          __v:
+                            type: number
+                            example: 0
+                          _id:
+                            type: string
+                            example: 649e795264e7dba29b726936
+                          avatar:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                example: 649e795264e7dba29b726935
+                              localPath:
+                                type: string
+                                example: ""
+                              url:
+                                type: string
+                                example: https://via.placeholder.com/200x200.png
+                          createdAt:
+                            type: string
+                            example: "2023-06-30T06:42:26.163Z"
+                          email:
+                            type: string
+                            example: user.email@domain.com
+                          isEmailVerified:
+                            type: boolean
+                            example: false
+                          loginType:
+                            type: string
+                            example: EMAIL_PASSWORD
+                          updatedAt:
+                            type: string
+                            example: "2023-06-30T06:42:26.247Z"
+                          username:
+                            type: string
+                            example: doejohn
+                  message:
+                    type: string
+                    example: >-
+                      Users registered successfully and verification email has
+                      been sent on your email.
+                  statusCode:
+                    type: number
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Register user:
+                  value:
+                    data:
+                      user:
+                        __v: 0
+                        _id: 649e795264e7dba29b726936
+                        avatar:
+                          _id: 649e795264e7dba29b726935
+                          localPath: ""
+                          url: https://via.placeholder.com/200x200.png
+                        createdAt: "2023-06-30T06:42:26.163Z"
+                        email: user.email@domain.com
+                        isEmailVerified: false
+                        loginType: EMAIL_PASSWORD
+                        updatedAt: "2023-06-30T06:42:26.247Z"
+                        username: doejohn
+                    message: >-
+                      Users registered successfully and verification email has
+                      been sent on your email.
+                    statusCode: 200
+                    success: true
+  /users/login:
+    post:
+      tags:
+        - 🔐 Authentication
+      summary: Login user
+      description: >-
+        The API endpoint allows users to log into the application securely and
+        also returns an access token.
+
+
+        When accessing this endpoint with valid login credentials, users will
+        receive an access token in the response.
+
+
+        Additionally, the API endpoint securely sets the access token within the
+        browser/client httpOnly cookies for future authentication and
+        authorization purposes.
+
+
+        This functionality ensures a secure and efficient login process for
+        users, providing them with an access token that can be used to
+        authenticate subsequent API requests.
+
+
+        By securely storing the access token in browser cookies, the endpoint
+        enables automatic inclusion of the access token in future API requests,
+        eliminating the need for users to manually manage and provide the token
+        with each request.
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: test@123
+                username:
+                  type: string
+                  example: doejohn
+            example:
+              password: test@123
+              username: doejohn
+      responses:
+        "200":
+          description: Login user
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "926"
+            Date:
+              schema:
+                type: string
+                example: Fri, 30 Jun 2023 06:44:29 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"39e-a7Fdn0Th2/i/29/rw1he3r/pebo"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            RateLimit-Limit:
+              schema:
+                type: string
+                example: "500"
+            RateLimit-Remaining:
+              schema:
+                type: string
+                example: "494"
+            RateLimit-Reset:
+              schema:
+                type: string
+                example: "648"
+            Set-Cookie:
+              schema:
+                type: string
+                example: >-
+                  refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                  Path=/; HttpOnly
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjg4MTA3NDY5LCJleHAiOjE2ODgxOTM4Njl9.40qfVrWi8x8fGBRB9JBVCVsdMYvlwzjIRpffz5z7DK4
+                      refreshToken:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho
+                      user:
+                        type: object
+                        properties:
+                          __v:
+                            type: number
+                            example: 0
+                          _id:
+                            type: string
+                            example: 649e795264e7dba29b726936
+                          avatar:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                example: 649e795264e7dba29b726935
+                              localPath:
+                                type: string
+                                example: ""
+                              url:
+                                type: string
+                                example: https://via.placeholder.com/200x200.png
+                          createdAt:
+                            type: string
+                            example: "2023-06-30T06:42:26.163Z"
+                          email:
+                            type: string
+                            example: user.email@domain.com
+                          isEmailVerified:
+                            type: boolean
+                            example: false
+                          loginType:
+                            type: string
+                            example: EMAIL_PASSWORD
+                          updatedAt:
+                            type: string
+                            example: "2023-06-30T06:44:29.831Z"
+                          username:
+                            type: string
+                            example: doejohn
+                  message:
+                    type: string
+                    example: User logged in successfully
+                  statusCode:
+                    type: number
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Login user:
+                  value:
+                    data:
+                      accessToken: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJlbWFpbCI6IndhamUuc2h1YmhhbTExMUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IndhamVzaHViaGFtIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjg4MTA3NDY5LCJleHAiOjE2ODgxOTM4Njl9.40qfVrWi8x8fGBRB9JBVCVsdMYvlwzjIRpffz5z7DK4
+                      refreshToken: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho
+                      user:
+                        __v: 0
+                        _id: 649e795264e7dba29b726936
+                        avatar:
+                          _id: 649e795264e7dba29b726935
+                          localPath: ""
+                          url: https://via.placeholder.com/200x200.png
+                        createdAt: "2023-06-30T06:42:26.163Z"
+                        email: user.email@domain.com
+                        isEmailVerified: false
+                        loginType: EMAIL_PASSWORD
+                        updatedAt: "2023-06-30T06:44:29.831Z"
+                        username: doejohn
+                    message: User logged in successfully
+                    statusCode: 200
+                    success: true
+  /books:
+    get:
+      tags:
+        - 📢 Book APIs
+
+      summary: Get books
+      description: >-
+        The API endpoint allows you to retrieve all books.
+
+      operationId: getBooks
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: string
+            example: "1"
+        - name: limit
+          in: query
+          schema:
+            type: string
+            example: "10"
+
+      responses:
+        "200":
+          description: Get books
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+
+  /books/new-book:
+    post:
+      tags:
+        - 📢 Book APIs
+
+      summary: Create new book
+      description: >-
+        The API endpoint allows you to create new book in db.
+
+      operationId: newBooks
+
+      responses:
+        "201":
+          description: New Book
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+      requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: The Hobbit
+                    author:
+                      type: string
+                      example: j.r.r. tolkien
+                    genre:
+                      type: string
+                      example: fantasy
+                    bookCoverImage:
+                      type: string
+                      format: uri
+                      example: https://example.com/images/hobbit.jpg
+                    description:
+                      type: string
+                      example: A fantasy adventure that leads to an unexpected journey.
+                    price:
+                      type: number
+                      example: 799
+                    quantity:
+                      type: integer
+                      example: 7
+                    publishedYear:
+                      type: integer
+                      example: 1937
+                example:
+                  title: The Hobbit
+                  author: j.r.r. tolkien
+                  genre: fantasy
+                  bookCoverImage: https://example.com/images/hobbit.jpg
+                  description: A fantasy adventure that leads to an unexpected journey.
+                  price: 799
+                  quantity: 7
+                  publishedYear: 1937
+  /books/{bookId}:
+    parameters:
+      - name: bookId
+        in: path
+        required: true
+        description: The ID of the book
+        schema:
+          type: string
+    patch:
+      tags:
+        - 📢 Book APIs
+
+      summary: Update book
+      description: >-
+        The API endpoint allows you to update book in db.
+
+      operationId: updateBook
+
+      responses:
+        "200":
+          description: Update Book
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+      requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: The Hobbit
+                    author:
+                      type: string
+                      example: j.r.r. tolkien
+                    genre:
+                      type: string
+                      example: fantasy
+                    bookCoverImage:
+                      type: string
+                      format: uri
+                      example: https://example.com/images/hobbit.jpg
+                    description:
+                      type: string
+                      example: A fantasy adventure that leads to an unexpected journey.
+                    price:
+                      type: number
+                      example: 799
+                    quantity:
+                      type: integer
+                      example: 7
+                    publishedYear:
+                      type: integer
+                      example: 1937
+                example:
+                  title: The Hobbit
+                  author: j.r.r. tolkien
+                  genre: fantasy
+                  bookCoverImage: https://example.com/images/hobbit.jpg
+                  description: A fantasy adventure that leads to an unexpected journey.
+                  price: 799
+                  quantity: 7
+                  publishedYear: 1937
+  
+    get:
+      tags:
+        - 📢 Book APIs
+
+      summary: Get book by id
+      description: >-
+        The API endpoint allows you to get book by id.
+      
+
+      operationId: getBookById
+
+      responses:
+        "200":
+          description: Get Book by id response
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: The Hobbit
+                    author:
+                      type: string
+                      example: j.r.r. tolkien
+                    genre:
+                      type: string
+                      example: fantasy
+                    bookCoverImage:
+                      type: string
+                      format: uri
+                      example: https://example.com/images/hobbit.jpg
+                    description:
+                      type: string
+                      example: A fantasy adventure that leads to an unexpected journey.
+                    price:
+                      type: number
+                      example: 799
+                    quantity:
+                      type: integer
+                      example: 7
+                    publishedYear:
+                      type: integer
+                      example: 1937
+                example:
+                  title: The Hobbit
+                  author: j.r.r. tolkien
+                  genre: fantasy
+                  bookCoverImage: https://example.com/images/hobbit.jpg
+                  description: A fantasy adventure that leads to an unexpected journey.
+                  price: 799
+                  quantity: 7
+                  publishedYear: 1937
+    delete:
+      tags:
+        - 📢 Book APIs
+
+      summary: Delete book
+      description: >-
+        The API endpoint allows you to Delete book in db.
+
+      operationId: deleteBook
+
+      responses:
+        "200":
+          description: delete Book
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+     
+
+  /books/search:
+    get:
+      tags:
+        - 📢 Book APIs
+
+      summary: Search book
+      description: >-
+        The API endpoint allows you to Search book in db.
+
+      operationId: Search Book
+
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            example: "booktitle"
+        - name: genre
+          in: query
+          schema:
+            type: string
+            example: "fantasy"
+
+      responses:
+        "200":
+          description: Search Book
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: string
+                example: "true"
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "27925"
+            Date:
+              schema:
+                type: string
+                example: Thu, 01 Jun 2023 05:47:47 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"6d15-0KcGCMfWHfOKgogQFckT/3DtmQw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      example: The Hobbit
+                    author:
+                      type: string
+                      example: j.r.r. tolkien
+                    genre:
+                      type: string
+                      example: fantasy
+                    bookCoverImage:
+                      type: string
+                      format: uri
+                      example: https://example.com/images/hobbit.jpg
+                    description:
+                      type: string
+                      example: A fantasy adventure that leads to an unexpected journey.
+                    price:
+                      type: number
+                      example: 799
+                    quantity:
+                      type: integer
+                      example: 7
+                    publishedYear:
+                      type: integer
+                      example: 1937
+                example:
+                  title: The Hobbit
+                  author: j.r.r. tolkien
+                  genre: fantasy
+                  bookCoverImage: https://example.com/images/hobbit.jpg
+                  description: A fantasy adventure that leads to an unexpected journey.
+                  price: 799
+                  quantity: 7
+                  publishedYear: 1937
+  
+    
