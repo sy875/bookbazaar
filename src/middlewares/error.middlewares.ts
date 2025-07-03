@@ -1,9 +1,4 @@
 import mongoose from "mongoose";
-
-// import logger from "../logger/winston.logger.js";
-// import { ApiError } from "../utils/ApiError.js";
-// import { asyncHandler } from "../utils/asyncHandler.js";
-// import { removeUnusedMulterImageFilesOnError } from "../utils/helpers.js";
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../utils/api-error.js";
 
@@ -50,14 +45,10 @@ const errorHandler = (
     message: error.message,
     ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}), // Error stack traces should be visible in development for debugging
   };
-
-  //   logger.error(`${error.message}`);
-
-  //   removeUnusedMulterImageFilesOnError(req);
-  // Send error response
   
   const apiError = error as ApiError;
    res.status(Number(apiError.statusCode) || 500).json(response);
 };
+
 
 export { errorHandler };
