@@ -3,9 +3,9 @@ import request from "supertest";
 import mongoose from "mongoose";
 
 import dotenv from "dotenv";
-import { Book } from "../models/book.models";
-import { User } from "../models/user.models";
-import app from "../app";
+import { Book } from "../models/book.models.js";
+import { User } from "../models/user.models.js";
+import app from "../app.js";
 dotenv.config();
 
 let token = "";
@@ -58,7 +58,7 @@ describe("Auth → Register & Login", () => {
       email: user.email,
       password: user.password,
     });
-   
+
     expect(res.statusCode).toBe(200);
     expect(res.body.data.accessToken).toBeDefined();
     token = res.body.data.accessToken;
@@ -72,7 +72,6 @@ describe("Book Routes", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(newBook);
 
-   
     expect(res.statusCode).toBe(201);
     expect(res.body.data.title).toBe(newBook.title);
     createdBookId = res.body.data._id;

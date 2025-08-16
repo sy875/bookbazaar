@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { AvailableGenres } from "../utils/constants";
+import { AvailableGenres } from "../utils/constants.js";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const bookSchema = new Schema(
@@ -34,16 +34,17 @@ const bookSchema = new Schema(
       max: [10000, "Price cannot exceed 100"],
       required: true,
     },
-    quantity: {
+    stock: {
       type: Number,
       min: [1, "Price cannot be below 50"],
       max: [100, "Price cannot exceed 100"],
+      required: true,
     },
     publishedYear: {
       type: Number,
       required: true,
     },
-    userId: {
+    addedBy: {
       type: Schema.Types.ObjectId,
       required: true,
     },
@@ -51,7 +52,7 @@ const bookSchema = new Schema(
   { timestamps: true }
 );
 
-bookSchema.plugin(mongooseAggregatePaginate)
+bookSchema.plugin(mongooseAggregatePaginate);
 
 export const Book = mongoose.model("Book", bookSchema);
 // ■ {

@@ -6,13 +6,14 @@ import swaggerUi from "swagger-ui-express";
 import fs from "fs";
 import YAML from "yaml";
 
-
-import {
-  errorHandler,
-} from "./middlewares/error.middlewares.js";
+import { errorHandler } from "./middlewares/error.middlewares.js";
 import morganMiddleware from "./logger/morgan.logger.js";
 
-const file = fs.readFileSync(path.resolve(__dirname, "../swagger.yaml"), "utf8");
+const file = fs.readFileSync(
+  path.resolve(process.cwd(), "swagger.yaml"),
+  "utf8"
+);
+
 const swaggerDocument = YAML.parse(
   file?.replace(
     "- url: ${{server}}",
@@ -40,21 +41,28 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public")); // configure static file to save images locally
 app.use(cookieParser());
 
-
-
 import healthcheckRouter from "./routes/healthcheck.routes.js";
 
-import userRouter from "./routes/user.routes.js";
-import bookRouter from "./routes/book.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import bookRoutes from "./routes/book.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
-
+import { verifyApiKey } from "./middlewares/auth.middlewares.js";
 
 // * healthcheck
 app.use("/api/v1/healthcheck", healthcheckRouter);
 
 // * App apis
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/books", bookRouter);
+app.use("/api/v1/auth", authRoutes);
+app.use(verifyApiKey);
+app.use("/api/v1/books", bookRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/carts",cartRoutes)
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/payments", paymentRoutes);
 
 // * API DOCS
 // ? Keeping swagger code at the end so that we can load swagger on "/" route

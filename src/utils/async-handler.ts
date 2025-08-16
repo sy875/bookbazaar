@@ -8,7 +8,7 @@ import {
 type AsyncRequestHandler = (req: Request, res: Response, next: NextFunction) => Promise<any>;
 
 const asyncHandler = (requestHandler: ExpressRequestHandler | AsyncRequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return function(req: Request, res: Response, next: NextFunction) {
     Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };

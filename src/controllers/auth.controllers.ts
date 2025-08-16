@@ -1,19 +1,18 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { asyncHandler } from "../utils/async-handler";
+import { asyncHandler } from "../utils/async-handler.js";
 import { User } from "../models/user.models.js";
-import { ApiError } from "../utils/api-error";
-import { UserRolesEnum } from "../utils/constants";
+import { ApiError } from "../utils/api-error.js";
+import { UserRolesEnum } from "../utils/constants.js";
 import {
   emailVerificationMailgenContent,
   forgotPasswordMailgenContent,
   sendEmail,
-} from "../utils/mail";
-import { ApiResponse } from "../utils/api-response";
+} from "../utils/mail.js";
+import { ApiResponse } from "../utils/api-response.js";
 import { Request, Response } from "express";
 import { Types } from "mongoose";
-import { MyJwtPayload } from "../types/user";
-
+import { MyJwtPayload } from "../types/user.js";
 
 const generateAccessAndRefreshTokens = async (
   userId: string | Types.ObjectId
@@ -396,9 +395,9 @@ const changeCurrentPassword = asyncHandler(
     const { oldPassword, newPassword } = req.body;
 
     const user = await User.findById(req.user?._id);
- 
-    if(!user){
-        throw new ApiError(401,"unauthorized")
+
+    if (!user) {
+      throw new ApiError(401, "unauthorized");
     }
 
     // check the old password
@@ -440,7 +439,6 @@ const getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
 });
-
 
 export {
   assignRole,

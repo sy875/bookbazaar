@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "bookbazaar",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "npm i && tsc",
     "tsc": "tsc -w",
     "start": "node -r dotenv/config ./dist/index.js",
-    "dev": "tsc-watch --onSuccess \"nodemon -r dotenv/config --experimental-json-modules  dist/index.js\"",
+    "dev": "tsc-watch --onSuccess \"node -r dotenv/config --experimental-json-modules  dist/index.js\"",
     "test": "jest",
     "test:watch": "jest --runInBand"
   },
@@ -31,11 +32,13 @@
     "mongoose-aggregate-paginate-v2": "^1.1.4",
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
+    "nanoid": "^5.1.5",
     "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "passport-oauth2": "^1.8.0",
+    "razorpay": "^2.9.6",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.17.0",
     "yaml": "^2.8.0"

@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import mongoose, { model, Model, Schema } from "mongoose";
-import {  AvailableUserRoles, UserRolesEnum } from "../utils/constants";
-import { IUser, IUserMethods } from "../types/user";
+import {  AvailableUserRoles, UserRolesEnum } from "../utils/constants.js";
+import { IUser, IUserMethods } from "../types/user.js";
 
 const userSchema = new Schema<IUser, Model<IUser, {}, IUserMethods>, {}, IUserMethods>(
   {

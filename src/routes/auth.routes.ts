@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate } from "../validators/validate";
+import { validate } from "../validators/validate.js";
 import {
   userAssignRoleValidator,
   userChangeCurrentPasswordValidator,
@@ -7,7 +7,7 @@ import {
   userLoginValidator,
   userRegisterValidator,
   userResetForgottenPasswordValidator,
-} from "../validators/user.validators";
+} from "../validators/user.validators.js";
 import {
   assignRole,
   changeCurrentPassword,
@@ -20,17 +20,23 @@ import {
   resendEmailVerification,
   resetForgottenPassword,
   verifyEmail,
-  
-} from "../controllers/user.controllers";
-import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares";
-import { UserRolesEnum } from "../utils/constants";
-import { mongoIdPathVariableValidator } from "../validators/common/mongodb.validators";
+} from "../controllers/auth.controllers.js";
+import { verifyJWT, verifyPermission } from "../middlewares/auth.middlewares.js";
+import { UserRolesEnum } from "../utils/constants.js";
+import { mongoIdPathVariableValidator } from "../validators/common/mongodb.validators.js";
+import { createApiKey, getApiKeys } from "../controllers/apikey.controllers.js";
 
 const router = Router();
 
 // Unsecured route
 router.route("/register").post(userRegisterValidator(), validate, registerUser);
 router.route("/login").post(userLoginValidator(), validate, loginUser);
+router
+  .route("/api-key")
+  .get(verifyJWT, getApiKeys)
+  .post(verifyJWT, createApiKey);
+router.route("/me").get(verifyJWT, getCurrentUser);
+
 router.route("/refresh-token").post(refreshAccessToken);
 router.route("/verify-email/:verificationToken").get(verifyEmail);
 
@@ -48,7 +54,6 @@ router
 // Secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 
-router.route("/current-user").get(verifyJWT, getCurrentUser);
 router
   .route("/change-password")
   .post(
@@ -64,15 +69,11 @@ router
   .route("/assign-role/:userId")
   .post(
     verifyJWT,
-    verifyPermission([UserRolesEnum.ADMIN]),
+      verifyPermission([UserRolesEnum.ADMIN]),
     mongoIdPathVariableValidator("userId"),
     userAssignRoleValidator(),
     validate,
     assignRole
   );
-
-
-
-
 
 export default router;

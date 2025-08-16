@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { asyncHandler } from "../utils/async-handler";
-import { Book } from "../models/book.models";
-import { ApiResponse } from "../utils/api-response";
-import { ApiError } from "../utils/api-error";
-import { getMongoosePaginationOptions } from "../utils/helper";
+import { asyncHandler } from "../utils/async-handler.js";
+import { Book } from "../models/book.models.js";
+import { ApiResponse } from "../utils/api-response.js";
+import { ApiError } from "../utils/api-error.js";
+import { getMongoosePaginationOptions } from "../utils/helper.js";
 
 export const createNewBookEntry = asyncHandler(
   async (req: Request, res: Response) => {
@@ -15,7 +15,7 @@ export const createNewBookEntry = asyncHandler(
       description,
       price,
       publishedYear,
-      quantity,
+      stock,
     } = req.body;
 
     const book = await Book.create({
@@ -26,8 +26,8 @@ export const createNewBookEntry = asyncHandler(
       description,
       price,
       publishedYear,
-      quantity,
-      userId: req.user._id,
+      stock,
+      addedBy: req.user._id,
     });
 
     return res
@@ -39,7 +39,14 @@ export const createNewBookEntry = asyncHandler(
 export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
   const { page = 1, limit = 10 } = req.query;
   //Do not send userid to client
-  const productAggregate = Book.aggregate([{ $match: {} }]);
+  const productAggregate = Book.aggregate([
+    { $match: {} },
+    {
+      $project: {
+        addedBy: 0,
+      },
+    },
+  ]);
 
   const pageNum =
     typeof page === "string" ? parseInt(page, 10) : Number(page) || 1;
@@ -63,12 +70,12 @@ export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const searchBooks = asyncHandler(async (req: Request, res: Response) => {
-  
-  const { query,genre } = req.query;
+  const { query, genre, author } = req.query;
 
   interface MatchConditions {
     genre?: string;
     title?: { $regex: string; $options: string };
+    author?: { $regex: string; $options: string };
   }
 
   const matchConditions: MatchConditions = {};
@@ -80,20 +87,22 @@ export const searchBooks = asyncHandler(async (req: Request, res: Response) => {
   if (query) {
     matchConditions.title = { $regex: query as string, $options: "i" };
   }
+  if (author) {
+    matchConditions.author = { $regex: author as string, $options: "i" };
+  }
 
   const pipeline = [
     // match condition according to title and genre
     {
       $match: matchConditions,
     },
-    //remove user id 
+    //remove user id
     {
       $project: {
         userId: 0,
       },
     },
   ];
-
 
   const books = await Book.aggregate(pipeline);
 
@@ -103,7 +112,7 @@ export const searchBooks = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getBookById = asyncHandler(async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+  const { id: bookId } = req.params;
   const book = await Book.findById(bookId);
 
   if (!book) {
@@ -115,7 +124,7 @@ export const getBookById = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const updateBook = asyncHandler(async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+  const { id: bookId } = req.params;
 
   const {
     title,
@@ -165,7 +174,7 @@ export const updateBook = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const deleteBook = asyncHandler(async (req: Request, res: Response) => {
-  const { bookId } = req.params;
+  const { id: bookId } = req.params;
   const book = await Book.findById(bookId);
   if (!book) {
     throw new ApiError(404, "Book does not exist");

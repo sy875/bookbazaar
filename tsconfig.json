@@ -1,17 +1,17 @@
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "rootDir": "src",
-    "moduleResolution": "NodeNext",
-    "outDir": "dist",
-    "strict": true,
-    "skipLibCheck": true,
-    "types": ["node", "jest"],
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-  },
-  "include": ["src/**/*.ts", "express.d.ts", "src/tests","src/swagger.yaml"],
-  "exclude": ["node_modules", "dist"]
-}
+  {
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "NodeNext",
+      "rootDir": "src",
+      "moduleResolution": "NodeNext",
+      "outDir": "dist",
+      "strict": true,
+      "skipLibCheck": true,
+      "types": ["node", "jest"],
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "isolatedModules": true,
+    },
+    "include": ["src/**/*.ts", "express.d.ts", "src/tests","src/swagger.yaml"],
+    "exclude": ["node_modules", "dist"]
+  }
