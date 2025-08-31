@@ -2,6 +2,9 @@
 
 A modern, RESTful API for managing books and user authentication in an online book marketplace. Built with industry-standard technologies and best practices.
 
+## Postman Collection
+https://www.postman.com/lively-firefly-527899/workspace/bookbazar/request/22923065-9394c381-9305-47a9-bf2f-5cfb6fbe6333?action=share&source=copy-link&creator=22923065
+
 ## 🚀 Overview
 
 BookBazaar provides a comprehensive backend solution for book marketplace applications, featuring secure user authentication, complete book management, and robust search capabilities. The API is fully documented with interactive Swagger documentation and thoroughly tested.
@@ -21,7 +24,6 @@ BookBazaar provides a comprehensive backend solution for book marketplace applic
 Access the interactive Swagger UI to explore all endpoints:
 
 - **Development**: [http://localhost:3000/docs](http://localhost:3000/docs)
-- **Production**: [https://bookbazaar.vercel.app/docs](https://bookbazaar.vercel.app/docs)
 
 ## 🏁 Quick Start
 
@@ -163,7 +165,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [existing issues](https://github.com/yourusername/bookbazaar/issues)
+1. Check the [existing issues](https://github.com/sy875/bookbazaar/issues)
 2. Create a new issue with detailed information
 3. Use the Swagger documentation for API reference
 
