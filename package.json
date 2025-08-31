@@ -7,6 +7,8 @@
   "scripts": {
     "build": "npm i && tsc",
     "tsc": "tsc -w",
+    "pre-commit": "lint-staged",
+    "prepare": "tsc && node dist/prepare.js",
     "start": "node -r dotenv/config ./dist/index.js",
     "dev": "tsc-watch --onSuccess \"node -r dotenv/config --experimental-json-modules  dist/index.js\"",
     "test": "jest",
@@ -44,6 +46,8 @@
     "yaml": "^2.8.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
@@ -57,7 +61,10 @@
     "@types/nodemailer": "^6.4.17",
     "@types/supertest": "^6.0.3",
     "@types/swagger-ui-express": "^4.1.8",
+    "husky": "^9.1.7",
     "jest": "^30.0.4",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
     "supertest": "^7.1.1",
     "ts-jest": "^29.4.0",
     "tsc-watch": "^7.1.1"
